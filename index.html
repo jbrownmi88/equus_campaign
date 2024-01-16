@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        #map {
+            width: 1443px;
+            height: 843px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/Equus_1.js"></script>
+        <script src="data/SeaofGrass_2.js"></script>
+        <script src="data/TheBridleRange_3.js"></script>
+        <script src="data/TheMane_4.js"></script>
+        <script src="data/ValleyoftheTimeTomes_5.js"></script>
+        <script src="data/DoukhobarsCopse_6.js"></script>
+        <script src="data/Roads_8.js"></script>
+        <script src="data/Rivers_9.js"></script>
+        <script src="data/Cities_10.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[4.94571142247703,-5.7027039960699835],[30.237837337901368,37.633744807885385]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_EquusWorldMap_0');
+        map.getPane('pane_EquusWorldMap_0').style.zIndex = 400;
+        var img_EquusWorldMap_0 = 'data/EquusWorldMap_0.png';
+        var img_bounds_EquusWorldMap_0 = [[5.547904896653801,7.337638930215499],[29.6356438637246,24.593401881599902]];
+        var layer_EquusWorldMap_0 = new L.imageOverlay(img_EquusWorldMap_0,
+                                              img_bounds_EquusWorldMap_0,
+                                              {pane: 'pane_EquusWorldMap_0'});
+        bounds_group.addLayer(layer_EquusWorldMap_0);
+        map.addLayer(layer_EquusWorldMap_0);
+        function pop_Equus_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Equus_1_0() {
+            return {
+                pane: 'pane_Equus_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(141,90,153,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Equus_1');
+        map.getPane('pane_Equus_1').style.zIndex = 401;
+        map.getPane('pane_Equus_1').style['mix-blend-mode'] = 'normal';
+        var layer_Equus_1 = new L.geoJson(json_Equus_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Equus_1',
+            layerName: 'layer_Equus_1',
+            pane: 'pane_Equus_1',
+            onEachFeature: pop_Equus_1,
+            style: style_Equus_1_0,
+        });
+        bounds_group.addLayer(layer_Equus_1);
+        function pop_SeaofGrass_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">id</th>\
+                        <td>' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_SeaofGrass_2_0() {
+            return {
+                pane: 'pane_SeaofGrass_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(145,82,45,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_SeaofGrass_2');
+        map.getPane('pane_SeaofGrass_2').style.zIndex = 402;
+        map.getPane('pane_SeaofGrass_2').style['mix-blend-mode'] = 'normal';
+        var layer_SeaofGrass_2 = new L.geoJson(json_SeaofGrass_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SeaofGrass_2',
+            layerName: 'layer_SeaofGrass_2',
+            pane: 'pane_SeaofGrass_2',
+            onEachFeature: pop_SeaofGrass_2,
+            style: style_SeaofGrass_2_0,
+        });
+        bounds_group.addLayer(layer_SeaofGrass_2);
+        function pop_TheBridleRange_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_TheBridleRange_3_0() {
+            return {
+                pane: 'pane_TheBridleRange_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(133,182,111,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_TheBridleRange_3');
+        map.getPane('pane_TheBridleRange_3').style.zIndex = 403;
+        map.getPane('pane_TheBridleRange_3').style['mix-blend-mode'] = 'normal';
+        var layer_TheBridleRange_3 = new L.geoJson(json_TheBridleRange_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_TheBridleRange_3',
+            layerName: 'layer_TheBridleRange_3',
+            pane: 'pane_TheBridleRange_3',
+            onEachFeature: pop_TheBridleRange_3,
+            style: style_TheBridleRange_3_0,
+        });
+        bounds_group.addLayer(layer_TheBridleRange_3);
+        function pop_TheMane_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_TheMane_4_0() {
+            return {
+                pane: 'pane_TheMane_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(232,113,141,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_TheMane_4');
+        map.getPane('pane_TheMane_4').style.zIndex = 404;
+        map.getPane('pane_TheMane_4').style['mix-blend-mode'] = 'normal';
+        var layer_TheMane_4 = new L.geoJson(json_TheMane_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_TheMane_4',
+            layerName: 'layer_TheMane_4',
+            pane: 'pane_TheMane_4',
+            onEachFeature: pop_TheMane_4,
+            style: style_TheMane_4_0,
+        });
+        bounds_group.addLayer(layer_TheMane_4);
+        function pop_ValleyoftheTimeTomes_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ValleyoftheTimeTomes_5_0() {
+            return {
+                pane: 'pane_ValleyoftheTimeTomes_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(112,177,182,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_ValleyoftheTimeTomes_5');
+        map.getPane('pane_ValleyoftheTimeTomes_5').style.zIndex = 405;
+        map.getPane('pane_ValleyoftheTimeTomes_5').style['mix-blend-mode'] = 'normal';
+        var layer_ValleyoftheTimeTomes_5 = new L.geoJson(json_ValleyoftheTimeTomes_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ValleyoftheTimeTomes_5',
+            layerName: 'layer_ValleyoftheTimeTomes_5',
+            pane: 'pane_ValleyoftheTimeTomes_5',
+            onEachFeature: pop_ValleyoftheTimeTomes_5,
+            style: style_ValleyoftheTimeTomes_5_0,
+        });
+        bounds_group.addLayer(layer_ValleyoftheTimeTomes_5);
+        function pop_DoukhobarsCopse_6(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_DoukhobarsCopse_6_0() {
+            return {
+                pane: 'pane_DoukhobarsCopse_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(231,113,72,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_DoukhobarsCopse_6');
+        map.getPane('pane_DoukhobarsCopse_6').style.zIndex = 406;
+        map.getPane('pane_DoukhobarsCopse_6').style['mix-blend-mode'] = 'normal';
+        var layer_DoukhobarsCopse_6 = new L.geoJson(json_DoukhobarsCopse_6, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_DoukhobarsCopse_6',
+            layerName: 'layer_DoukhobarsCopse_6',
+            pane: 'pane_DoukhobarsCopse_6',
+            onEachFeature: pop_DoukhobarsCopse_6,
+            style: style_DoukhobarsCopse_6_0,
+        });
+        bounds_group.addLayer(layer_DoukhobarsCopse_6);
+        map.createPane('pane_keats_georeferenced');
+        map.getPane('pane_keats_georeferenced').style.zIndex = 407;
+        var img_keats_georeferenced = 'data/keats_georeferenced.jpg';
+        var img_bounds_keats_georeferenced = [[10.817334067087451,13.47484729685685],[10.89526853903005,13.53875274820905]];
+        var layer_keats_georeferenced = new L.imageOverlay(img_keats_georeferenced,
+                                              img_bounds_keats_georeferenced,
+                                              {pane: 'pane_keats_georeferenced'});
+        bounds_group.addLayer(layer_keats_georeferenced);
+        function pop_Roads_8(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Roads_8_0() {
+            return {
+                pane: 'pane_Roads_8',
+                opacity: 1,
+                color: 'rgba(125,139,143,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Roads_8');
+        map.getPane('pane_Roads_8').style.zIndex = 408;
+        map.getPane('pane_Roads_8').style['mix-blend-mode'] = 'normal';
+        var layer_Roads_8 = new L.geoJson(json_Roads_8, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Roads_8',
+            layerName: 'layer_Roads_8',
+            pane: 'pane_Roads_8',
+            onEachFeature: pop_Roads_8,
+            style: style_Roads_8_0,
+        });
+        bounds_group.addLayer(layer_Roads_8);
+        function pop_Rivers_9(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Rivers_9_0() {
+            return {
+                pane: 'pane_Rivers_9',
+                opacity: 1,
+                color: 'rgba(6,115,232,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Rivers_9');
+        map.getPane('pane_Rivers_9').style.zIndex = 409;
+        map.getPane('pane_Rivers_9').style['mix-blend-mode'] = 'normal';
+        var layer_Rivers_9 = new L.geoJson(json_Rivers_9, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Rivers_9',
+            layerName: 'layer_Rivers_9',
+            pane: 'pane_Rivers_9',
+            onEachFeature: pop_Rivers_9,
+            style: style_Rivers_9_0,
+        });
+        bounds_group.addLayer(layer_Rivers_9);
+        function pop_Cities_10(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Cities_10_0() {
+            return {
+                pane: 'pane_Cities_10',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(164,113,88,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Cities_10');
+        map.getPane('pane_Cities_10').style.zIndex = 410;
+        map.getPane('pane_Cities_10').style['mix-blend-mode'] = 'normal';
+        var layer_Cities_10 = new L.geoJson(json_Cities_10, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Cities_10',
+            layerName: 'layer_Cities_10',
+            pane: 'pane_Cities_10',
+            onEachFeature: pop_Cities_10,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Cities_10_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Cities_10);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Cities_10.png" /> Cities': layer_Cities_10,'<img src="legend/Rivers_9.png" /> Rivers': layer_Rivers_9,'<img src="legend/Roads_8.png" /> Roads': layer_Roads_8,"Keats (Map)": layer_keats_georeferenced,'<img src="legend/DoukhobarsCopse_6.png" /> Doukhobar\'s Copse': layer_DoukhobarsCopse_6,'<img src="legend/ValleyoftheTimeTomes_5.png" /> Valley of the Time Tomes': layer_ValleyoftheTimeTomes_5,'<img src="legend/TheMane_4.png" /> The Mane': layer_TheMane_4,'<img src="legend/TheBridleRange_3.png" /> The Bridle Range': layer_TheBridleRange_3,'<img src="legend/SeaofGrass_2.png" /> Sea of Grass': layer_SeaofGrass_2,'<img src="legend/Equus_1.png" /> Equus': layer_Equus_1,"Equus World Map": layer_EquusWorldMap_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        </script>
+    </body>
+</html>
