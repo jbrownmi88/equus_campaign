@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
         #map {
-            width: 1443px;
+            width: 1282px;
             height: 843px;
         }
         </style>
@@ -39,13 +39,42 @@
         <script src="data/Roads_8.js"></script>
         <script src="data/Rivers_9.js"></script>
         <script src="data/Cities_10.js"></script>
+        <script src="data/Places_11.js"></script>
+        <script src="data/GameEvents_12.js"></script>
         <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+            highlightLayer.openPopup();
+        }
         var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:1
-        }).fitBounds([[4.94571142247703,-5.7027039960699835],[30.237837337901368,37.633744807885385]]);
+        }).fitBounds([[10.851480595734964,13.489620823644634],[10.885716695766737,13.541728086475393]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        function removeEmptyRowsFromPopupContent(content, feature) {
+         var tempDiv = document.createElement('div');
+         tempDiv.innerHTML = content;
+         var rows = tempDiv.querySelectorAll('tr');
+         for (var i = 0; i < rows.length; i++) {
+             var td = rows[i].querySelector('td.visible-with-data');
+             var key = td ? td.id : '';
+             if (td && td.classList.contains('visible-with-data') && feature.properties[key] == null) {
+                 rows[i].parentNode.removeChild(rows[i]);
+             }
+         }
+         return tempDiv.innerHTML;
+        }
+        document.querySelector(".leaflet-popup-pane").addEventListener("load", function(event) {
+          var tagName = event.target.tagName,
+            popup = map._popup;
+          // Also check if flag is already set.
+          if (tagName === "IMG" && popup && !popup._updated) {
+            popup._updated = true; // Set flag to prevent looping.
+            popup.update();
+          }
+        }, true);
         var measureControl = new L.Control.Measure({
             position: 'topleft',
             primaryLengthUnit: 'meters',
@@ -71,6 +100,18 @@
         bounds_group.addLayer(layer_EquusWorldMap_0);
         map.addLayer(layer_EquusWorldMap_0);
         function pop_Equus_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
@@ -80,6 +121,10 @@
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
         }
 
         function style_Equus_1_0() {
@@ -111,16 +156,31 @@
         });
         bounds_group.addLayer(layer_Equus_1);
         function pop_SeaofGrass_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">id</th>\
-                        <td>' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
         }
 
         function style_SeaofGrass_2_0() {
@@ -152,12 +212,28 @@
         });
         bounds_group.addLayer(layer_SeaofGrass_2);
         function pop_TheBridleRange_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
         }
 
         function style_TheBridleRange_3_0() {
@@ -189,6 +265,18 @@
         });
         bounds_group.addLayer(layer_TheBridleRange_3);
         function pop_TheMane_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
@@ -198,6 +286,10 @@
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
         }
 
         function style_TheMane_4_0() {
@@ -229,12 +321,28 @@
         });
         bounds_group.addLayer(layer_TheMane_4);
         function pop_ValleyoftheTimeTomes_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
         }
 
         function style_ValleyoftheTimeTomes_5_0() {
@@ -266,6 +374,18 @@
         });
         bounds_group.addLayer(layer_ValleyoftheTimeTomes_5);
         function pop_DoukhobarsCopse_6(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
@@ -275,6 +395,10 @@
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
         }
 
         function style_DoukhobarsCopse_6_0() {
@@ -305,15 +429,29 @@
             style: style_DoukhobarsCopse_6_0,
         });
         bounds_group.addLayer(layer_DoukhobarsCopse_6);
-        map.createPane('pane_keats_georeferenced');
-        map.getPane('pane_keats_georeferenced').style.zIndex = 407;
-        var img_keats_georeferenced = 'data/keats_georeferenced.jpg';
-        var img_bounds_keats_georeferenced = [[10.817334067087451,13.47484729685685],[10.89526853903005,13.53875274820905]];
-        var layer_keats_georeferenced = new L.imageOverlay(img_keats_georeferenced,
-                                              img_bounds_keats_georeferenced,
-                                              {pane: 'pane_keats_georeferenced'});
-        bounds_group.addLayer(layer_keats_georeferenced);
+        map.addLayer(layer_DoukhobarsCopse_6);
+        map.createPane('pane_KeatsMap_7');
+        map.getPane('pane_KeatsMap_7').style.zIndex = 407;
+        var img_KeatsMap_7 = 'data/KeatsMap_7.png';
+        var img_bounds_KeatsMap_7 = [[10.817334067087451,13.47484729685685],[10.89526853903005,13.53875274820905]];
+        var layer_KeatsMap_7 = new L.imageOverlay(img_KeatsMap_7,
+                                              img_bounds_KeatsMap_7,
+                                              {pane: 'pane_KeatsMap_7'});
+        bounds_group.addLayer(layer_KeatsMap_7);
+        map.addLayer(layer_KeatsMap_7);
         function pop_Roads_8(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
@@ -323,6 +461,10 @@
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
         }
 
         function style_Roads_8_0() {
@@ -352,6 +494,18 @@
         });
         bounds_group.addLayer(layer_Roads_8);
         function pop_Rivers_9(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
@@ -361,6 +515,10 @@
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
         }
 
         function style_Rivers_9_0() {
@@ -389,7 +547,20 @@
             style: style_Rivers_9_0,
         });
         bounds_group.addLayer(layer_Rivers_9);
+        map.addLayer(layer_Rivers_9);
         function pop_Cities_10(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
@@ -399,6 +570,10 @@
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
         }
 
         function style_Cities_10_0() {
@@ -436,8 +611,134 @@
             },
         });
         bounds_group.addLayer(layer_Cities_10);
+        map.addLayer(layer_Cities_10);
+        function pop_Places_11(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['descrip'] !== null ? autolinker.link(feature.properties['descrip'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_Places_11_0() {
+            return {
+                pane: 'pane_Places_11',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(225,89,137,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Places_11');
+        map.getPane('pane_Places_11').style.zIndex = 411;
+        map.getPane('pane_Places_11').style['mix-blend-mode'] = 'normal';
+        var layer_Places_11 = new L.geoJson(json_Places_11, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Places_11',
+            layerName: 'layer_Places_11',
+            pane: 'pane_Places_11',
+            onEachFeature: pop_Places_11,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Places_11_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Places_11);
+        map.addLayer(layer_Places_11);
+        function pop_GameEvents_12(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Event'] !== null ? autolinker.link(feature.properties['Event'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_GameEvents_12_0() {
+            return {
+                pane: 'pane_GameEvents_12',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(152,125,183,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_GameEvents_12');
+        map.getPane('pane_GameEvents_12').style.zIndex = 412;
+        map.getPane('pane_GameEvents_12').style['mix-blend-mode'] = 'normal';
+        var layer_GameEvents_12 = new L.geoJson(json_GameEvents_12, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_GameEvents_12',
+            layerName: 'layer_GameEvents_12',
+            pane: 'pane_GameEvents_12',
+            onEachFeature: pop_GameEvents_12,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_GameEvents_12_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_GameEvents_12);
+        map.addLayer(layer_GameEvents_12);
         var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="legend/Cities_10.png" /> Cities': layer_Cities_10,'<img src="legend/Rivers_9.png" /> Rivers': layer_Rivers_9,'<img src="legend/Roads_8.png" /> Roads': layer_Roads_8,"Keats (Map)": layer_keats_georeferenced,'<img src="legend/DoukhobarsCopse_6.png" /> Doukhobar\'s Copse': layer_DoukhobarsCopse_6,'<img src="legend/ValleyoftheTimeTomes_5.png" /> Valley of the Time Tomes': layer_ValleyoftheTimeTomes_5,'<img src="legend/TheMane_4.png" /> The Mane': layer_TheMane_4,'<img src="legend/TheBridleRange_3.png" /> The Bridle Range': layer_TheBridleRange_3,'<img src="legend/SeaofGrass_2.png" /> Sea of Grass': layer_SeaofGrass_2,'<img src="legend/Equus_1.png" /> Equus': layer_Equus_1,"Equus World Map": layer_EquusWorldMap_0,},{collapsed:false}).addTo(map);
+        L.control.layers(baseMaps,{'<img src="legend/GameEvents_12.png" /> Game Events': layer_GameEvents_12,'<img src="legend/Places_11.png" /> Places': layer_Places_11,'<img src="legend/Cities_10.png" /> Cities': layer_Cities_10,'<img src="legend/Rivers_9.png" /> Rivers': layer_Rivers_9,'<img src="legend/Roads_8.png" /> Roads': layer_Roads_8,"Keats (Map)": layer_KeatsMap_7,'<img src="legend/DoukhobarsCopse_6.png" /> Doukhobar\'s Copse': layer_DoukhobarsCopse_6,'<img src="legend/ValleyoftheTimeTomes_5.png" /> Valley of the Time Tomes': layer_ValleyoftheTimeTomes_5,'<img src="legend/TheMane_4.png" /> The Mane': layer_TheMane_4,'<img src="legend/TheBridleRange_3.png" /> The Bridle Range': layer_TheBridleRange_3,'<img src="legend/SeaofGrass_2.png" /> Sea of Grass': layer_SeaofGrass_2,'<img src="legend/Equus_1.png" /> Equus': layer_Equus_1,"Equus World Map": layer_EquusWorldMap_0,},{collapsed:false}).addTo(map);
         setBounds();
         L.ImageOverlay.include({
             getBounds: function () {
